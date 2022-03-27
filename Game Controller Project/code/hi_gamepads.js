@@ -1,4 +1,6 @@
 autowatch = 1;
+outlets = 2;
+
 var controllername = 'generic game pad';
 
 var useaccel = 0;
@@ -47,8 +49,8 @@ game['PLAYSTATION(R)3 Controller'] = {
  	'62':'unk_v',
 	'30':'notsure'
 	};
-	
-game['Logitech Dual Action'] = {
+
+game['Logitech Dual Action alt'] = {
 	'11':'RT',
 	'9':'RB',
 	'10':'LT',
@@ -67,6 +69,27 @@ game['Logitech Dual Action'] = {
 	'19':'js_R_X',
 	'20':'js_R_Y'
 	};
+
+game['Logitech Dual Action'] = {
+	'13':'RT',
+	'11':'RB',
+	'12':'LT',
+	'10':'LB',
+	'23':'dpad_C',
+	'14':'back',
+	'15':'start',
+	'16':'jsb_L',
+	'17':'jsb_R',
+	'9':'col_U',
+	'6':'col_L',
+	'8':'col_R',
+	'7':'col_D',
+	'19':'js_L_X',
+	'20':'js_L_Y',
+	'21':'js_R_X',
+	'22':'js_R_Y'
+	};
+
 game['Sensel Morph'] = {};
 
 
@@ -77,16 +100,22 @@ function accel(v){
 
 function manualname(s){
 	if(s=='ps3'){
-		controllername = 'PLAYSTATION(R)3 Controller';
+		ctls('PLAYSTATION(R)3 Controller');
 	}
 	if(s=='logitech'){
-		controllername = 'Logitech Dual Action';
+		ctls('Logitech Dual Action');
+	}
+	if(s=='logitech_alt'){
+		ctls('Logitech Dual Action Alt');
 	}
 }
 
 function ctls(s){
-	
+
 	controllername = s;
+	for (i in game[controllername]){
+		outlet(1,game[controllername][i]);
+	}
 	//post('\nusing: '+controllername);
 }
 
@@ -98,54 +127,44 @@ function list()
 	var cindex = a[0];
 	var value = a[1];
 	//post('\nin: '+cindex);
-	
+
 	switch(controllername){
  		case 'Logitech Dual Action':
 			var outname = game[controllername][cindex.toString()];
-			if(outname = 'dpad_C'){
-				
-			post('\noutname!!: '+outname+' '+value);
-					if(value==6){
-						outname = 'dpad_L';
-						value = 1;
-						last_dpad = outname;
-						outlet(0,outname,value);
-					}
-					if(value==0){
-						outname = 'dpad_U';
-						value = 1;
-						last_dpad = outname;
-						outlet(0,outname,value);
-					}
-					if(value==2){
-						outname = 'dpad_R';
-						value = 1;
-						last_dpad = outname;
-						outlet(0,outname,value);
-					}
-					if(value==4){
-						outname = 'dpad_D';
-						value = 1;
-						last_dpad = outname;
-						outlet(0,outname,value);
-					}
-					if(value==8){
-						outname = last_dpad;
-						value = 0;
-						outlet(0,outname,value);
-					}
-				
+			//this controller uses a single index for the Dpad, with different values for each direction.
+			if(outname == 'dpad_C'){
+				var dpaddirs = {
+					'0':'dpad_U',
+					'1':'dpad_ne',
+					'2':'dpad_R',
+					'3':'dpad_se',
+					'4':'dpad_D',
+					'5':'dpad_sw',
+					'6':'dpad_L',
+					'7':'dpad_nw',
+					'8':'dpad_off',
+				};
+				outname = dpaddirs[value.toString()];
+				//this is kind of a brute force method. using the last_dpad didnt' work well with the diagonals.
+				if(outname=='dpad_off'){
+						for(outn in dpaddirs){
+							outlet(0,dpaddirs[outn],0);
+					  }
+				} else {
+					last_dpad = outname;
+					outlet(0,outname,1);
+				}
+				// post('\noutname!!: '+outname+' '+value);
 			} else {
-				
-			post('\noutname?: '+outname+' '+value);
+				// post('\noutname?: '+outname+' '+value);
 				outlet(0,outname,value);
 			}
 		break;
-		
+
 		case 'Sensel Morph':
-		
+
 		break;
-		
+
 		case 'PLAYSTATION(R)3 Controller':
 			var outname = game[controllername][cindex.toString()];
 			//post('\noutname: '+cindex+' - '+outname);
@@ -158,11 +177,11 @@ function list()
 				}
 			}
 		break;
-		
+
 		case 'default':
-		
+
 		break;
-		
+
 	}
-	
+
 }

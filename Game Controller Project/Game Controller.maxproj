@@ -2,7 +2,7 @@
 	"name" : "Game Controller",
 	"version" : 1,
 	"creationdate" : 3731001854,
-	"modificationdate" : 3731066629,
+	"modificationdate" : 3731091966,
 	"viewrect" : [ 50.0, 131.0, 300.0, 500.0 ],
 	"autoorganize" : 1,
 	"hideprojectwindow" : 0,
@@ -28,6 +28,16 @@
 ,
 			"imgbtn.maxhelp" : 			{
 				"kind" : "helpfile",
+				"local" : 1
+			}
+,
+			"pressure_color.maxpat" : 			{
+				"kind" : "patcher",
+				"local" : 1
+			}
+,
+			"GameController.amxd" : 			{
+				"kind" : "maxforlive",
 				"local" : 1
 			}
 
@@ -185,28 +195,19 @@
 			}
 ,
 			"default_bg.png" : 			{
-				"kind" : "imagefile",
-				"local" : 1
+				"kind" : "imagefile"
 			}
 ,
 			"default_cap.png" : 			{
-				"kind" : "imagefile",
-				"local" : 1
+				"kind" : "imagefile"
 			}
 ,
 			"default_knob_bg.png" : 			{
-				"kind" : "imagefile",
-				"local" : 1
+				"kind" : "imagefile"
 			}
 ,
 			"default_knob.png" : 			{
-				"kind" : "imagefile",
-				"local" : 1
-			}
-,
-			"imgbtn_ex.png" : 			{
-				"kind" : "imagefile",
-				"local" : 1
+				"kind" : "imagefile"
 			}
 ,
 			"imgbtn_alt.png" : 			{
@@ -218,16 +219,91 @@
 				"kind" : "imagefile",
 				"local" : 1
 			}
+,
+			"col_D_on.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"back.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"col_D.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"col_L_on.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"col_L.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"col_R_on.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"col_R.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"col_U_on.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"col_U.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"dpad_D.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"dpad_L.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"dpad_ne_on.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"dpad_ne.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"dpad_nw_on.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
+,
+			"dpad_nw.png" : 			{
+				"kind" : "imagefile",
+				"local" : 1
+			}
 
 		}
 ,
 		"code" : 		{
-			"imgbtn.js" : 			{
+			"hi_gamepads.js" : 			{
 				"kind" : "javascript",
 				"local" : 1
 			}
 ,
-			"imgbtn_alt.js" : 			{
+			"imgbtn.js" : 			{
 				"kind" : "javascript",
 				"local" : 1
 			}
@@ -238,11 +314,6 @@
 			}
 ,
 			"imgslider.js" : 			{
-				"kind" : "javascript",
-				"local" : 1
-			}
-,
-			"hi_gamepads.js" : 			{
 				"kind" : "javascript",
 				"local" : 1
 			}
