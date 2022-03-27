@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 295.0, 79.0, 728.0, 462.0 ],
+		"rect" : [ 295.0, 79.0, 582.0, 628.0 ],
 		"openrect" : [ 0.0, 0.0, 370.0, 15.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
@@ -56,7 +56,7 @@
 					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
 					"activebgoncolor" : [ 1.0, 0.71, 0.196, 1.0 ],
 					"activetextcolor" : [ 1.0, 0.709804, 0.196078, 1.0 ],
-					"annotation" : "For button controls - act as toggle or momentary",
+					"annotation" : "For button controls - act as toggle or momentary. Also works for continuous controllers.",
 					"annotation_name" : "ToggleMode",
 					"appearance" : 2,
 					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
@@ -103,7 +103,7 @@
 						"valueof" : 						{
 							"parameter_annotation_name" : "ToggleMode",
 							"parameter_enum" : [ "val1", "val2" ],
-							"parameter_info" : "For button controls - act as toggle or momentary",
+							"parameter_info" : "For button controls - act as toggle or momentary. Also works for continuous controllers.",
 							"parameter_linknames" : 1,
 							"parameter_longname" : "ToggleMode",
 							"parameter_mmax" : 1,

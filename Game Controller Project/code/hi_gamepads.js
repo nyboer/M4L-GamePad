@@ -1,16 +1,18 @@
 autowatch = 1;
-outlets = 3; //pattrstorage name and value, note on/off, available parameters
+outlets = 4; //pattrstorage name and value, note on/off, available parameters
 setoutletassist(0,'pattrstorage name and value');
 setoutletassist(1,'note number and velocity');
 setoutletassist(2,'long names of parameters');
+setoutletassist(3,'errors and warnings');
 
 var midiout = 1;
-var controllername = 'generic game pad';
+var controllername = '';
 var maxvel = 120;
 var useimu = 1;
 
 //setup the specifics for different brands of controllers.
 var game = {};
+
 game['PLAYSTATION(R)3 Controller'] ={};
 game['PLAYSTATION(R)3 Controller'].map = {
 	'16':'RT',
@@ -99,6 +101,95 @@ game['PLAYSTATION(R)3 Controller'].range = {
 	'30':'1'
 }
 
+game['PLAYSTATION(R)3 Controller 1'] ={};
+game['PLAYSTATION(R)3 Controller 1'].map = {
+	'16':'RT',
+	'18':'RB',
+	'15':'LT',
+	'17':'LB',
+	'14':'dpad_L',
+	'11':'dpad_U',
+	'12':'dpad_R',
+	'13':'dpad_D',
+	'7':'back',
+	'10':'start',
+	'8':'jsb_L',
+	'9':'jsb_R',
+	'19':'col_U',
+	'22':'col_L',
+	'20':'col_R',
+	'21':'col_D',
+	'26':'js_L_X',
+	'27':'js_L_Y',
+	'28':'js_R_X',
+	'29':'js_R_Y',
+	'41':'LB_press',
+	'39':'LT_press',
+	'42':'RB_press',
+	'40':'RT_press',
+	'38':'dpad_L_press',
+	'35':'dpad_U_press',
+	'36':'dpad_R_press',
+	'37':'dpad_D_press',
+	'43':'col_U_press',
+	'46':'col_L_press',
+	'44':'col_R_press',
+	'45':'col_D_press',
+	'69':'yaw',
+	'65':'pitch',
+	'67':'roll',
+	'63':'unk',
+	'68':'yaw_v',
+ 	'64':'pitch_v',
+ 	'66':'roll_v',
+ 	'62':'unk_v',
+	'30':'notsure'
+	};
+game['PLAYSTATION(R)3 Controller 1'].range = {
+	'16':'1',
+	'18':'1',
+	'15':'1',
+	'17':'1',
+	'14':'1',
+	'11':'1',
+	'12':'1',
+	'13':'1',
+	'7':'1',
+	'10':'1',
+	'8':'1',
+	'9':'1',
+	'19':'1',
+	'22':'1',
+	'20':'1',
+	'21':'1',
+	'26':'255',
+	'27':'255',
+	'28':'255',
+	'29':'255',
+	'41':'255',
+	'39':'255',
+	'42':'255',
+	'40':'255',
+	'38':'255',
+	'35':'255',
+	'36':'255',
+	'37':'255',
+	'43':'255',
+	'46':'255',
+	'44':'255',
+	'45':'255',
+	'69':'255',
+	'65':'255',
+	'67':'255',
+	'63':'255',
+	'68':'4',
+	'64':'4',
+	'66':'4',
+	'62':'4',
+	'30':'1'
+}
+
+
 //the indices for LDA for macOS Monterey and BigSur
 game['Logitech Dual Action'] = {};
 game['Logitech Dual Action'].map = {
@@ -141,8 +232,8 @@ game['Logitech Dual Action'].range = {
 	};
 
 //all the indices are (-2) when I use the LDA on macOS Mojave
-game['Logitech Dual Action Alt'] ={};
-game['Logitech Dual Action Alt'].map = {
+game['Logitech Dual Action 1'] ={};
+game['Logitech Dual Action 1'].map = {
 	'11':'RT',
 	'9':'RB',
 	'10':'LT',
@@ -161,7 +252,7 @@ game['Logitech Dual Action Alt'].map = {
 	'19':'js_R_X',
 	'20':'js_R_Y'
 	};
-game['Logitech Dual Action Alt'].range = {
+game['Logitech Dual Action 1'].range = {
 	'11':'1',
 	'9':'1',
 	'10':'1',
@@ -194,6 +285,7 @@ game.longnames = {
 	'dpad_U':'Dpad Up',
 	'dpad_R':'Dpad Right',
 	'dpad_D':'Dpad Down',
+	'dpad_C':'Dpad Composite',
 	'back':'Back',
 	'start':'Start',
 	'jsb_L':'Joystick Button Left',
@@ -241,24 +333,72 @@ function simplename(s){
 	if(s=='logitech'){
 		ctls('Logitech Dual Action');
 	}
-	if(s=='logitech_alt'){
-		ctls('Logitech Dual Action Alt');
+	if(s=='logitech_1'){
+		ctls('Logitech Dual Action 1');
 	}
+}
+
+function variant(v){
+	outlet(3,"off");
+	if(controllername != ''){
+		var namelist = controllername.split(' ');
+		var end = namelist[namelist.length-1];
+		var last = parseInt( end );
+		post("\ncurrent controller name: "+controllername);
+		post("\n last: "+end);
+		post("\n int: "+last+" ? "+isNaN(last) );
+		//need to modify controller name
+		if(isNaN(last)){
+			//current controller is main map, no appendage
+			if(v>0){
+				controllername = controllername+" "+v;
+			} else {
+				controllername = namelist.join(' ');
+			}
+		} else {
+			//modify the controllername by appending new variant number and redefine maps to variant
+			namelist.pop(); //ditch the last word
+			post("\nnamelist? "+namelist);
+			if(v>0){
+				controllername = namelist.join(' ')+" "+v;
+			} else {
+				controllername = namelist.join(' ');
+			}
+		}
+		post("\nnew controllername: "+controllername);
+		if(game[controllername]){
+			post("\nthere's a controller here");
+			ctls(controllername);
+		}else{
+			errors("no map at this variation");
+		}
+	} else {
+		errors("select a game controller first");
+	}
+
+}
+function errors(s){
+	post(s+"\n");
+	outlet(3,s);
 }
 
 //use a dict in the patch to access the ranges of controls when selected in menu
 var gcranges = new Dict('gamecontroller_ranges');
-
+//set up game controller with mappings and ranges from profiles
 function ctls(s){
 	gcranges.clear();
 	controllername = s;
-	for (i in game[controllername].map){
-		var item = game[controllername].map[i];
-		var readable = game.longnames[item];
-		var range = game[controllername].range[i];
-		post(readable+' '+range+"\n");
-		gcranges.set(item,range);
-		outlet(2,readable,range);
+		if(game[controllername]){
+		for (i in game[controllername].map){
+			var item = game[controllername].map[i];
+			var readable = game.longnames[item];
+			var range = game[controllername].range[i];
+			post("--ctls: "+i+" "+readable+" "+range+"\n");
+			gcranges.set(item,range);
+			outlet(2,readable,range);
+		}
+	} else {
+		errors("no profile for this game controller");
 	}
 	//post('\nusing: '+controllername);
 }
@@ -275,7 +415,7 @@ function list()
 	switch(controllername){
 		//two cases in a row is like an "OR" statement. neat!
  		case 'Logitech Dual Action':
- 		case 'Logitech Dual Action Alt':
+ 		case 'Logitech Dual Action 1':
 			var outname = game[controllername].map[cindex.toString()];
 			var range = game[controllername].range[cindex.toString()];
 			var nomidi = exclmidi.get(outname); //should be 1 if exists
@@ -355,7 +495,7 @@ function list()
 					//see if we need to send out note/value pairs
 					if(range == 1){
 						noteval = cindex+36;
-						outlet(1,noteval,value*maxval)
+						outlet(1,noteval,value*maxvel)
 					}
 					outlet(0,outname,value);
 				}
@@ -367,4 +507,17 @@ function list()
 		break;
 
 	}
+}
+
+function importprofile(profileFile){
+	var g = new Dict;
+	var gname = '';
+	g.import_json(profileFile);
+	var gameprofile = JSON.parse(g.stringify());
+	for(i in gameprofile){
+		gname = i;
+		post("\nprofile for: "+i);
+	}
+	//add to our profiles
+	game[gname]=gameprofile[gname];
 }
