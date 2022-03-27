@@ -18,4 +18,4 @@ There is also support for reading in profiles, but this is not yet integrated in
 
 ## Supported Controllers
 
-I've tested with Playstation 3 Six Axes and Logitech Dual Action controllers.
+I've tested with Playstation 3 Six Axes and Logitech Dual Action controllers. More controllers will be added in the future. I will need help getting controller profiles created! 
