@@ -8,6 +8,8 @@ var midiout = 1;
 var controllername = 'generic game pad';
 var maxvel = 120;
 var useimu = 1;
+
+//setup the specifics for different brands of controllers.
 var game = {};
 game['PLAYSTATION(R)3 Controller'] ={};
 game['PLAYSTATION(R)3 Controller'].map = {
@@ -97,46 +99,7 @@ game['PLAYSTATION(R)3 Controller'].range = {
 	'30':'1'
 }
 
-game['Logitech Dual Action alt'] ={};
-game['Logitech Dual Action alt'].map = {
-	'11':'RT',
-	'9':'RB',
-	'10':'LT',
-	'8':'LB',
-	'21':'dpad_C',
-	'12':'back',
-	'13':'start',
-	'14':'jsb_L',
-	'15':'jsb_R',
-	'7':'col_U',
-	'4':'col_L',
-	'6':'col_R',
-	'5':'col_D',
-	'17':'js_L_X',
-	'18':'js_L_Y',
-	'19':'js_R_X',
-	'20':'js_R_Y'
-	};
-game['Logitech Dual Action alt'].range = {
-	'13':'1',
-	'11':'1',
-	'12':'1',
-	'10':'1',
-	'23':'1',
-	'14':'1',
-	'15':'1',
-	'16':'1',
-	'17':'1',
-	'9':'1',
-	'6':'1',
-	'8':'1',
-	'7':'1',
-	'19':'255',
-	'20':'255',
-	'21':'255',
-	'22':'255'
-	};
-	
+//the indices for LDA for macOS Monterey and BigSur
 game['Logitech Dual Action'] = {};
 game['Logitech Dual Action'].map = {
 	'13':'RT',
@@ -175,6 +138,47 @@ game['Logitech Dual Action'].range = {
 	'20':'255',
 	'21':'255',
 	'22':'255'
+	};
+
+//all the indices are (-2) when I use the LDA on macOS Mojave
+game['Logitech Dual Action Alt'] ={};
+game['Logitech Dual Action Alt'].map = {
+	'11':'RT',
+	'9':'RB',
+	'10':'LT',
+	'8':'LB',
+	'21':'dpad_C',
+	'12':'back',
+	'13':'start',
+	'14':'jsb_L',
+	'15':'jsb_R',
+	'7':'col_U',
+	'4':'col_L',
+	'6':'col_R',
+	'5':'col_D',
+	'17':'js_L_X',
+	'18':'js_L_Y',
+	'19':'js_R_X',
+	'20':'js_R_Y'
+	};
+game['Logitech Dual Action Alt'].range = {
+	'11':'1',
+	'9':'1',
+	'10':'1',
+	'8':'1',
+	'21':'1',
+	'12':'1',
+	'13':'1',
+	'14':'1',
+	'15':'1',
+	'7':'1',
+	'4':'1',
+	'6':'1',
+	'5':'1',
+	'17':'255',
+	'18':'255',
+	'19':'255',
+	'20':'255'
 	};
 
 game['Sensel Morph'] = {};
@@ -224,7 +228,7 @@ game.longnames = {
 	'unk_v':'Unknown Velocity',
 	'notsure':'???'
 }
-	
+
 function imu(v){
 	post('\nuse imu '+v);
 	useimu = v;
@@ -253,7 +257,7 @@ function ctls(s){
 		var readable = game.longnames[item];
 		var range = game[controllername].range[i];
 		post(readable+' '+range+"\n");
-		gcranges.set(readable,range);
+		gcranges.set(item,range);
 		outlet(2,readable,range);
 	}
 	//post('\nusing: '+controllername);
@@ -261,7 +265,6 @@ function ctls(s){
 
 var last_dpad = '';
 var exclmidi = new Dict('exclude_midi');
-var toShortname = new Dict('translate_longname');
 function list()
 {
 	var a = arrayfromargs(arguments);
@@ -270,12 +273,13 @@ function list()
 	//post('\nin: '+cindex);
 
 	switch(controllername){
+		//two cases in a row is like an "OR" statement. neat!
  		case 'Logitech Dual Action':
+ 		case 'Logitech Dual Action Alt':
 			var outname = game[controllername].map[cindex.toString()];
 			var range = game[controllername].range[cindex.toString()];
-			var longname = toShortname.get(outname);
-			var nomidi = exclmidi.get(longname); //should be 1 if exists
-			
+			var nomidi = exclmidi.get(outname); //should be 1 if exists
+			// post('\nuse midi for this? '+outname+" "+nomidi);
 			//this controller uses a single index for the Dpad, with different values for each direction.
 			if(outname == 'dpad_C'){
 				var dpaddirs = {
@@ -295,28 +299,32 @@ function list()
 				if(outname=='dpad_off'){
 					for(outn in dpaddirs){
 						//these are all buttons, so send out noteoff (note number, value) pairs
-						if(midiout && !nomidi){
-							noteval = outn+36;
-							outlet(1,noteval,0);
-						}
+						// if(midiout && nomidi!=1){
+						// 	post("dpad notes: "+outn+" "+noteval+"\n");
+						// 	noteval = parseInt(outn)+36;
+						// 	outlet(1,noteval,0);
+						// }
+						//better than the above commented out code is to just use Max's 'flush' object to turn notes off
+						outlet(1,"bang");
 						outlet(0,dpaddirs[outn],0);
 					}
 				} else {
 					//see if we need to send out note/value pairs
-					if(range == 1 && (midiout && !nomidi) ){
-						noteval = cindex+36;
-						outlet(1,noteval,value*maxvel)
+					if(range == 1 && (midiout && nomidi!=1) ){
+						noteval = parseInt(value)+36;
+						// post("dpad notes: "+value+" "+noteval+"\n");
+						outlet(1,noteval,maxvel)
 					}
 					last_dpad = outname;
 					outlet(0,outname,1);
-					
+
 				}
 				// post('\noutname dpad: '+outname+' '+value);
 			//if the outname is not dpad_C we can just sed out the data
 			} else {
 				// post('\noutname other: '+outname+' '+value);
 				//see if we need to send out note/value pairs
-				if(range == 1 && (midiout && !nomidi) ){
+				if(range == 1 && (midiout && nomidi!=1) ){
 					noteval = cindex+36;
 					outlet(1,noteval,value*maxvel)
 				}
@@ -332,7 +340,7 @@ function list()
 			var outname = game[controllername].map[cindex.toString()];
 			var range = game[controllername].range[cindex.toString()];
 			//post('\noutname: '+cindex+' - '+outname);
-			
+
 			var isimu = (cindex>60 || cindex===30);
 			if(useimu>0){
 				//see if we need to send out note/value pairs
