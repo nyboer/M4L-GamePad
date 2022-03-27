@@ -242,21 +242,26 @@ function simplename(s){
 	}
 }
 
-function ctls(s){
+//use a dict in the patch to access the ranges of controls when selected in menu
+var gcranges = new Dict('gamecontroller_ranges');
 
+function ctls(s){
+	gcranges.clear();
 	controllername = s;
 	for (i in game[controllername].map){
 		var item = game[controllername].map[i];
 		var readable = game.longnames[item];
-		var range = game.range[item];
-		post(readable+"\n");
+		var range = game[controllername].range[i];
+		post(readable+' '+range+"\n");
+		gcranges.set(readable,range);
 		outlet(2,readable,range);
 	}
 	//post('\nusing: '+controllername);
 }
 
 var last_dpad = '';
-
+var exclmidi = new Dict('exclude_midi');
+var toShortname = new Dict('translate_longname');
 function list()
 {
 	var a = arrayfromargs(arguments);
@@ -268,6 +273,9 @@ function list()
  		case 'Logitech Dual Action':
 			var outname = game[controllername].map[cindex.toString()];
 			var range = game[controllername].range[cindex.toString()];
+			var longname = toShortname.get(outname);
+			var nomidi = exclmidi.get(longname); //should be 1 if exists
+			
 			//this controller uses a single index for the Dpad, with different values for each direction.
 			if(outname == 'dpad_C'){
 				var dpaddirs = {
@@ -287,7 +295,7 @@ function list()
 				if(outname=='dpad_off'){
 					for(outn in dpaddirs){
 						//these are all buttons, so send out noteoff (note number, value) pairs
-						if(midiout){
+						if(midiout && !nomidi){
 							noteval = outn+36;
 							outlet(1,noteval,0);
 						}
@@ -295,7 +303,7 @@ function list()
 					}
 				} else {
 					//see if we need to send out note/value pairs
-					if(range == 1 && midiout){
+					if(range == 1 && (midiout && !nomidi) ){
 						noteval = cindex+36;
 						outlet(1,noteval,value*maxvel)
 					}
@@ -308,7 +316,7 @@ function list()
 			} else {
 				// post('\noutname other: '+outname+' '+value);
 				//see if we need to send out note/value pairs
-				if(range == 1 && midiout){
+				if(range == 1 && (midiout && !nomidi) ){
 					noteval = cindex+36;
 					outlet(1,noteval,value*maxvel)
 				}
