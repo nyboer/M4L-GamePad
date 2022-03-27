@@ -1,12 +1,16 @@
 autowatch = 1;
-outlets = 2;
+outlets = 3; //pattrstorage name and value, note on/off, available parameters
+setoutletassist(0,'pattrstorage name and value');
+setoutletassist(1,'note number and velocity');
+setoutletassist(2,'long names of parameters');
 
+var midiout = 1;
 var controllername = 'generic game pad';
-
-var useaccel = 0;
+var maxvel = 120;
+var useimu = 1;
 var game = {};
-
-game['PLAYSTATION(R)3 Controller'] = {
+game['PLAYSTATION(R)3 Controller'] ={};
+game['PLAYSTATION(R)3 Controller'].map = {
 	'16':'RT',
 	'18':'RB',
 	'15':'LT',
@@ -49,8 +53,52 @@ game['PLAYSTATION(R)3 Controller'] = {
  	'62':'unk_v',
 	'30':'notsure'
 	};
+game['PLAYSTATION(R)3 Controller'].range = {
+	'16':'1',
+	'18':'1',
+	'15':'1',
+	'17':'1',
+	'14':'1',
+	'11':'1',
+	'12':'1',
+	'13':'1',
+	'7':'1',
+	'10':'1',
+	'8':'1',
+	'9':'1',
+	'19':'1',
+	'22':'1',
+	'20':'1',
+	'21':'1',
+	'26':'255',
+	'27':'255',
+	'28':'255',
+	'29':'255',
+	'41':'255',
+	'39':'255',
+	'42':'255',
+	'40':'255',
+	'38':'255',
+	'35':'255',
+	'36':'255',
+	'37':'255',
+	'43':'255',
+	'46':'255',
+	'44':'255',
+	'45':'255',
+	'69':'255',
+	'65':'255',
+	'67':'255',
+	'63':'255',
+	'68':'4',
+	'64':'4',
+	'66':'4',
+	'62':'4',
+	'30':'1'
+}
 
-game['Logitech Dual Action alt'] = {
+game['Logitech Dual Action alt'] ={};
+game['Logitech Dual Action alt'].map = {
 	'11':'RT',
 	'9':'RB',
 	'10':'LT',
@@ -69,8 +117,28 @@ game['Logitech Dual Action alt'] = {
 	'19':'js_R_X',
 	'20':'js_R_Y'
 	};
-
-game['Logitech Dual Action'] = {
+game['Logitech Dual Action alt'].range = {
+	'13':'1',
+	'11':'1',
+	'12':'1',
+	'10':'1',
+	'23':'1',
+	'14':'1',
+	'15':'1',
+	'16':'1',
+	'17':'1',
+	'9':'1',
+	'6':'1',
+	'8':'1',
+	'7':'1',
+	'19':'255',
+	'20':'255',
+	'21':'255',
+	'22':'255'
+	};
+	
+game['Logitech Dual Action'] = {};
+game['Logitech Dual Action'].map = {
 	'13':'RT',
 	'11':'RB',
 	'12':'LT',
@@ -89,16 +157,80 @@ game['Logitech Dual Action'] = {
 	'21':'js_R_X',
 	'22':'js_R_Y'
 	};
+game['Logitech Dual Action'].range = {
+	'13':'1',
+	'11':'1',
+	'12':'1',
+	'10':'1',
+	'23':'1',
+	'14':'1',
+	'15':'1',
+	'16':'1',
+	'17':'1',
+	'9':'1',
+	'6':'1',
+	'8':'1',
+	'7':'1',
+	'19':'255',
+	'20':'255',
+	'21':'255',
+	'22':'255'
+	};
 
 game['Sensel Morph'] = {};
+game['Sensel Morph'].map = {};
+game['Sensel Morph'].range = {};
 
-
-function accel(v){
-	post('\nuse accel '+v);
-	useaccel = v;
+game.longnames = {
+	'RT':'Right Trigger',
+	'RB':'Right Bumper',
+	'LT':'Left Trigger',
+	'LB':'Left Bumper',
+	'dpad_L':'Dpad Left',
+	'dpad_U':'Dpad Up',
+	'dpad_R':'Dpad Right',
+	'dpad_D':'Dpad Down',
+	'back':'Back',
+	'start':'Start',
+	'jsb_L':'Joystick Button Left',
+	'jsb_R':'Joystick Button Right',
+	'col_U':'Color Button Up',
+	'col_L':'Color Button Left',
+	'col_R':'Color Button Right',
+	'col_D':'Color Button Down',
+	'js_L_X':'Joystick Left X',
+	'js_L_Y':'Joystick Left Y',
+	'js_R_X':'Joystick Right X',
+	'js_R_Y':'Joystick Right Y',
+	'LB_press':'Left Bumper Pressure',
+	'LT_press':'Left Trigger Pressure',
+	'RB_press':'Right Bumper Pressure',
+	'RT_press':'Right Trigger Pressure',
+	'dpad_L_press':'Dpad Left Pressure',
+	'dpad_U_press':'Dpad Up Pressure',
+	'dpad_R_press':'Dpad Right Pressure',
+	'dpad_D_press':'Dpad Down Pressure',
+	'col_U_press':'Color Button Up Pressure',
+	'col_L_press':'Color Button Left Pressure',
+	'col_R_press':'Color Button Right Pressure',
+	'col_D_press':'Color Button Down Pressure',
+	'yaw':'Yaw (circa Z)',
+	'pitch':'Pitch (circa Y)',
+	'roll':'Roll (circa X)',
+	'unk':'Unknown',
+	'yaw_v':'Yaw Velocity',
+	'pitch_v':'Pitch Velocity',
+	'roll_v':'Roll Velocity',
+	'unk_v':'Unknown Velocity',
+	'notsure':'???'
+}
+	
+function imu(v){
+	post('\nuse imu '+v);
+	useimu = v;
 }
 
-function manualname(s){
+function simplename(s){
 	if(s=='ps3'){
 		ctls('PLAYSTATION(R)3 Controller');
 	}
@@ -113,8 +245,12 @@ function manualname(s){
 function ctls(s){
 
 	controllername = s;
-	for (i in game[controllername]){
-		outlet(1,game[controllername][i]);
+	for (i in game[controllername].map){
+		var item = game[controllername].map[i];
+		var readable = game.longnames[item];
+		var range = game.range[item];
+		post(readable+"\n");
+		outlet(2,readable,range);
 	}
 	//post('\nusing: '+controllername);
 }
@@ -130,7 +266,8 @@ function list()
 
 	switch(controllername){
  		case 'Logitech Dual Action':
-			var outname = game[controllername][cindex.toString()];
+			var outname = game[controllername].map[cindex.toString()];
+			var range = game[controllername].range[cindex.toString()];
 			//this controller uses a single index for the Dpad, with different values for each direction.
 			if(outname == 'dpad_C'){
 				var dpaddirs = {
@@ -144,19 +281,37 @@ function list()
 					'7':'dpad_nw',
 					'8':'dpad_off',
 				};
+				//value from dpad press indicates its direction, eg (23,1) is right dpad
 				outname = dpaddirs[value.toString()];
-				//this is kind of a brute force method. using the last_dpad didnt' work well with the diagonals.
+				//this is kind of a brute force method to turn off all dpad presses. using the last_dpad didnt' work well with the diagonals.
 				if(outname=='dpad_off'){
-						for(outn in dpaddirs){
-							outlet(0,dpaddirs[outn],0);
-					  }
+					for(outn in dpaddirs){
+						//these are all buttons, so send out noteoff (note number, value) pairs
+						if(midiout){
+							noteval = outn+36;
+							outlet(1,noteval,0);
+						}
+						outlet(0,dpaddirs[outn],0);
+					}
 				} else {
+					//see if we need to send out note/value pairs
+					if(range == 1 && midiout){
+						noteval = cindex+36;
+						outlet(1,noteval,value*maxvel)
+					}
 					last_dpad = outname;
 					outlet(0,outname,1);
+					
 				}
-				// post('\noutname!!: '+outname+' '+value);
+				// post('\noutname dpad: '+outname+' '+value);
+			//if the outname is not dpad_C we can just sed out the data
 			} else {
-				// post('\noutname?: '+outname+' '+value);
+				// post('\noutname other: '+outname+' '+value);
+				//see if we need to send out note/value pairs
+				if(range == 1 && midiout){
+					noteval = cindex+36;
+					outlet(1,noteval,value*maxvel)
+				}
 				outlet(0,outname,value);
 			}
 		break;
@@ -166,13 +321,26 @@ function list()
 		break;
 
 		case 'PLAYSTATION(R)3 Controller':
-			var outname = game[controllername][cindex.toString()];
+			var outname = game[controllername].map[cindex.toString()];
+			var range = game[controllername].range[cindex.toString()];
 			//post('\noutname: '+cindex+' - '+outname);
-			isaccel = (cindex>60 || cindex===30);
-			if(useaccel>0){
+			
+			var isimu = (cindex>60 || cindex===30);
+			if(useimu>0){
+				//see if we need to send out note/value pairs
+				if(range == 1){
+					noteval = cindex+36;
+					outlet(1,noteval,value*maxvel)
+				}
 				outlet(0,outname,value);
 			}else{
-				if(!isaccel){
+				//suppress acceleromo
+				if(!isimu){
+					//see if we need to send out note/value pairs
+					if(range == 1){
+						noteval = cindex+36;
+						outlet(1,noteval,value*maxval)
+					}
 					outlet(0,outname,value);
 				}
 			}
@@ -183,5 +351,4 @@ function list()
 		break;
 
 	}
-
 }
