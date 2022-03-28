@@ -20,11 +20,11 @@ For example, the red button on my Logitech Dual Action controller uses index `8`
 
 The "variation" menu helps works around this problem. If your controller is not working right, try a different variation.
 
-There is also support for reading in profiles, but this is not yet integrated into the Max for Live interface.
+There is also support for reading in profiles, but this is not yet integrated into the Max for Live interface. Profiles are currently hard-coded into the main javascript, though if you edit the patch, you'll find an [importprofile] message to the central javascript.
 
 ## Supported Controllers
 
-I've tested with *Playstation 3 Six Axes* and *Logitech Dual Action* controllers. More controllers will be added in the future. I will need help getting controller profiles created! 
+I've developed and tested with *Playstation 3 Six Axes* and *Logitech Dual Action* controllers. More controllers will be added in the future. I will need help getting controller profiles created! 
 
 ## Profile format
 If you are interested in making a profile for a controller, hopefully this section provides some enlightenment. Right now, it is a pretty manual exercise. You'll need to work with the Max [`[hi]`](https://docs.cycling74.com/max7/refpages/hi) object, and sniff out the indices of controls as you use them. If a controller (like the PS3 Six Axis) has a motion sensor, you'll be flooded with a bunch data that gets in the way. Just use `[route]` to filter out those constant streams, and then it will get easier.
@@ -81,4 +81,4 @@ The `lda_profile.json` doesn't have individual D-pad indices for up, down, left,
 
 The moral of the story is that other controllers will probably do similar things that require unique attention.
 
-
+by Peter Nyboer - [nbor](https://nbor.us)
