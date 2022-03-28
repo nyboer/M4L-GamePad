@@ -8,6 +8,11 @@ Use the device's mapping interface to map to Ableton device parameters.
 
 If you select a button in the mapping source menu, it will be excluded from sending MIDI notes, and used to map to Ableton device parameters. Use the "tog" button to turn it from momentary `(m)` action into toggle `(t)`. Toggle can be used with continuous controls like joysticks and pressure, too.
 
+## Max Patch
+
+This relies on a central javascript to do most of the interpretive work and communicate to the UI widgets via pattrstorage. 
+The mapping and Live integration is mostly cribbed from the *Expression Control* M4L device that ships with Live Suite. This will probably need refactoring to overcome the 6-mapping limitation. 
+
 ## Mapping Variations
 
 Problem: the same game controller will use different IDs for controls on different computers. 
@@ -57,13 +62,13 @@ The basic structure is a JSON file like so:
 ```
 The name of the controller (such as `"PLAYSTATION(R)3 Controller"` or `"Logitech Dual Action"`) must match what is reported from the Max [hi] object. There is an allowance for "variations" because `"PLAYSTATION(R)3 Controller"` may report different things on macOS Monterey vs macOS BigSur vs Windows 10, etc. In that case, the name can be followed by an integer, like `"PLAYSTATION(R)3 Controller 2"` for variation 2. This is accessed in the variation sub menu of the Max for Live interface.
 
-In the map, the leading integer is the index of something like a joystick x axis or D-pad press. 
+In the `map`, the leading integer is the index of something like a joystick x axis or D-pad press. 
 The range is the observed max value from a control. 
 Clearly `range` should either be called `max` or be defined as a pair of min,max values. But, until we observe otherwise, the program assumes a minimum of 0.
 
 ### Control names in map
 
-If you are making a profile, refer to the control names in the PS3 `ps3_profile.json` file.
+If you are making a profile, refer to the control names in the PS3 [`ps3_profile.json`](https://github.com/nyboer/M4L-GamePad/blob/main/Game%20Controller%20Project/data/ps3_profile.json) file.
 These are all standardized, and bind to specific interface ([jsui]) and [pattr] objects in the M4L device. For example, the name `js_L_X` corresponds to the left joystick x-axis control, the `col_U` name corresponds to the up-direction "color-coded" button on the right. The PS3 would refer to this as a "triangle," but these right side buttons don't seem to follow a convention among controllers so they are called "color buttons" here.
 
 If you decide to use `L_js_X` for a control name in your profile, it won't work. Why? Because it doesn't follow the standard!
