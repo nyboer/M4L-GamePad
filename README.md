@@ -27,7 +27,10 @@ There is also support for reading in profiles, but this is not yet integrated in
 I've developed and tested with *Playstation 3 Six Axes* and *Logitech Dual Action* controllers. More controllers will be added in the future. I will need help getting controller profiles created! 
 
 ## Profile format
+
 If you are interested in making a profile for a controller, hopefully this section provides some enlightenment. Right now, it is a pretty manual exercise. You'll need to work with the Max [`[hi]`](https://docs.cycling74.com/max7/refpages/hi) object, and sniff out the indices of controls as you use them. If a controller (like the PS3 Six Axis) has a motion sensor, you'll be flooded with a bunch data that gets in the way. Just use `[route]` to filter out those constant streams, and then it will get easier.
+
+Because this is so early stage, this profile format could likely change as we learn new things about game controllers.
 
 ### Implementation
 
