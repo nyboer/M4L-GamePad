@@ -11,7 +11,7 @@ If you select a button in the mapping source menu, it will be excluded from send
 ## Max Patch
 
 This relies on a central javascript to do most of the interpretive work and communicate to the UI widgets via pattrstorage. 
-The mapping and Live integration is mostly cribbed from the *Expression Control* M4L device that ships with Live Suite. This will probably need refactoring to overcome the 6-mapping limitation. 
+The mapping and Live integration is mostly cribbed from the *Expression Control* M4L device that ships with Live Suite. This will probably need refactoring to overcome the 6-parameter-mappings limitation. 
 
 ## Mapping Variations
 
