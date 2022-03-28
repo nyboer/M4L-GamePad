@@ -2,24 +2,24 @@
 
 Max for live device that uses game controllers to play notes and control Live parameters.
 
-Buttons, by default, output notes. You can use Live's scale and transpose devices to modify those note values.
+Buttons output notes by default. You can use Live's scale and transpose devices to modify those note values.
 
-Use the mapping interface to map to Ableton device parameters.
+Use the device's mapping interface to map to Ableton device parameters.
 
-If you select a button in the source menu, it will be excluded from sending MIDI notes, and used to map to Ableton device parameters. Use the "tog" button to turn it from momentary `(m)` action into toggle `(t)`. Toggle can be used with continuous controls like joysticks and pressure.
+If you select a button in the mapping source menu, it will be excluded from sending MIDI notes, and used to map to Ableton device parameters. Use the "tog" button to turn it from momentary `(m)` action into toggle `(t)`. Toggle can be used with continuous controls like joysticks and pressure, too.
 
 ## Mapping Variations
 
-The same game controller will use different IDs for controls on different computers. For example, the red button on my Logitech Dual Action controller used index "8" on macOS Monterey and Big Sur, but "6" on macOS Mojave.
+Problem: the same game controller will use different IDs for controls on different computers. 
+For example, the red button on my Logitech Dual Action controller uses index `8` on macOS Monterey and Big Sur, but `6` on macOS Mojave. (You wonder why MIDI is 7 bit? Becuase it _works_, that's why.)
 
-As a result, there's a "variation" menu if your controller is not working right. 
+The "variation" menu helps works around this problem. If your controller is not working right, try a different variation.
 
 There is also support for reading in profiles, but this is not yet integrated into the Max for Live interface.
 
 ## Supported Controllers
 
-I've tested with Playstation 3 Six Axes and Logitech Dual Action controllers. More controllers will be added in the future. I will need help getting controller profiles created! 
-
+I've tested with *Playstation 3 Six Axes* and *Logitech Dual Action* controllers. More controllers will be added in the future. I will need help getting controller profiles created! 
 
 ## Profile format
 If you are interested in making a profile for a controller, hopefully this section provides some enlightenment. Right now, it is a pretty manual exercise. You'll need to work with the Max [`[hi]`](https://docs.cycling74.com/max7/refpages/hi) object, and sniff out the indices of controls as you use them. If a controller (like the PS3 Six Axis) has a motion sensor, you'll be flooded with a bunch data that gets in the way. Just use `[route]` to filter out those constant streams, and then it will get easier.
