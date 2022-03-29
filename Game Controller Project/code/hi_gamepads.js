@@ -146,6 +146,7 @@ function imu(v){
 	useimu = v;
 }
 
+//can probably delete this function, was using for dev and test
 function simplename(s){
 	if(s=='ps3'){
 		ctls('PLAYSTATION(R)3 Controller');
@@ -242,6 +243,7 @@ function ctls(s){
 	//post('\nusing: '+controllername);
 }
 
+//data from hi object in max:
 var last_dpad = '';
 var exclmidi = new Dict('exclude_midi');
 function list()
@@ -259,9 +261,11 @@ function list()
 			var outname = game[controllername][index].map;
 			var rangevec = game[controllername][index].range;
 			var range = Math.abs(rangevec[1]-rangevec[0]);
+			var isbtn = (range === 1 || game[controllername][index].type === 'button' || game[controllername][index].type === 'btn');
 			var nomidi = exclmidi.get(outname); //should be 1 if exists
 			// post('\nuse midi for this? '+outname+" "+nomidi);
 			//this controller uses a single index for the Dpad, with different values for each direction.
+			//windows uses the really large values, macs seem to use the 0-8.
 			if(outname == 'dpad_C'){
 				var dpaddirs = {
 					'0':'dpad_U',
@@ -273,8 +277,16 @@ function list()
 					'6':'dpad_L',
 					'7':'dpad_nw',
 					'8':'dpad_off',
+					'4500':'dpad_ne',
+					'9000':'dpad_R',
+					'13500':'dpad_se',
+					'18000':'dpad_D',
+					'22500':'dpad_sw',
+					'27000':'dpad_L',
+					'31500':'dpad_nw',
+					'4294967295':'dpad_off'
 				};
-				//value from dpad press indicates its direction, eg (23,1) is right dpad
+				//value from dpad press indicates its direction, eg the 1 in (23,1) is right dpad
 				outname = dpaddirs[value.toString()];
 				//this is kind of a brute force method to turn off all dpad presses. using the last_dpad didnt' work well with the diagonals.
 				if(outname=='dpad_off'){
@@ -291,7 +303,7 @@ function list()
 					}
 				} else {
 					//see if we need to send out note/value pairs
-					if(range == 1 && (midiout && nomidi!=1) ){
+					if(isbtn && (midiout && nomidi!=1) ){
 						noteval = parseInt(value)+36;
 						// post("dpad notes: "+value+" "+noteval+"\n");
 						outlet(1,noteval,maxvel)
