@@ -38,7 +38,7 @@ Because this is so early stage, this profile format could likely change as we le
 
 ### Implementation
 
-The individual profiles are not yet accessible from the main Max for Live interface. I haven't figured that out yet.  You have to be editing the patch to use the function `importprofile()` to load a profile file.
+The individual profiles are in the data folder, and are read when the controller is selected from the menu, or when a variation is selected. 
 
 ### About Max and HID controllers
 
@@ -46,32 +46,42 @@ This patch uses the max 'hi' object to report available devices and get the data
 
 ### Structure
 
-Currently, the definition for a controller is pretty rudimentary. You can see examples in the [data folder](https://github.com/nyboer/M4L-GamePad/tree/main/Game%20Controller%20Project/data).
+Currently, the definition for a controller is pretty rudimentary. You can see examples in the [data folder](https://github.com/nyboer/M4L-GamePad/blob/main/Game%20Controller%20Project/data/sony-ps3-six-axis_mac10_prof.json).
 
 The basic structure is a JSON file like so:
 ```
 {
-		"PLAYSTATION(R)3 Controller":{
-				"map":{
-					"16":"RT",
-					"18":"RB",
-					....
-				},
-				"range":{
-					"16":"1",
-					"18":"1",
-					"26":"255",
-					"27":"255",
-					....
-				}
-			}
+	"PLAYSTATION(R)3 Controller _1": {
+    "variant":"macOS 10",
+		"variantID":"1",
+		"16": {
+			"map": "RT",
+			"range": [0, 1]
+		},
+		"18": {
+			"map": "RB",
+			"range": [0, 1]
+		},
+		"15": {
+			"map": "LT",
+			"range": [0, 1]
+		},
+		.......
+		"26": {
+			"map": "js_L_X",
+			"range": [0, 255]
+		},
+		"27": {
+			"map": "js_L_Y",
+			"range": [0, 255]
+		},
+		......
 }
 ```
-The name of the controller (such as `"PLAYSTATION(R)3 Controller"` or `"Logitech Dual Action"`) must match what is reported from the Max [hi] object. There is an allowance for "variations" because `"PLAYSTATION(R)3 Controller"` may report different things on macOS Monterey vs macOS BigSur vs Windows 10, etc. In that case, the name can be followed by an integer, like `"PLAYSTATION(R)3 Controller 2"` for variation 2. This is accessed in the variation sub menu of the Max for Live interface.
+The name of the controller (such as `"PLAYSTATION(R)3 Controller"` or `"Logitech Dual Action"`) must match what is reported from the Max [hi] object. There is an allowance for "variations" because `"PLAYSTATION(R)3 Controller"` may report different things on macOS Monterey vs macOS BigSur vs Windows 10, etc. In that case, the name can be followed by an underscore and integer, like `"PLAYSTATION(R)3 Controller _2"` for variation 2. This is accessed in the variation sub menu of the Max for Live interface.
 
 In the `map`, the leading integer is the index of something like a joystick x axis or D-pad press. 
 The range is the observed max value from a control. 
-Clearly `range` should either be called `max` or be defined as a pair of min,max values. But, until we observe otherwise, the program assumes a minimum of 0.
 
 ### Control names in map
 
