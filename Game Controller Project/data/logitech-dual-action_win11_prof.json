@@ -1,0 +1,74 @@
+{
+	"Logitech Dual Action": {
+    "variant":"windows 11",
+		"variantID":"2",
+		"55": {
+			"map": "RT",
+			"range": [0, 1
+		},
+		"53": {
+			"map": "RB",
+			"range": [0, 1]
+		},
+		"54": {
+			"map": "LT",
+			"range": [0, 1]
+		},
+		"52": {
+			"map": "LB",
+			"range": [0, 1]
+		},
+		"32": {
+			"map": "dpad_C",
+			"range": [0, 1]
+		},
+		"56": {
+			"map": "back",
+			"range": [0, 1]
+		},
+		"57": {
+			"map": "start",
+			"range": [0, 1]
+		},
+		"58": {
+			"map": "jsb_L",
+			"range": [0, 1]
+		},
+		"59": {
+			"map": "jsb_R",
+			"range": [0, 1]
+		},
+		"51": {
+			"map": "col_U",
+			"range": [0, 1]
+		},
+		"48": {
+			"map": "col_L",
+			"range": [0, 1]
+		},
+		"50": {
+			"map": "col_R",
+			"range": [0, 1]
+		},
+		"49": {
+			"map": "col_D",
+			"range": [0, 1]
+		},
+		"0": {
+			"map": "js_L_X",
+			"range": [0, 65535]
+		},
+		"4": {
+			"map": "js_L_Y",
+			"range": [0, 65535]
+		},
+		"21": {
+			"map": "js_R_X",
+			"range": [0, 65535]
+		},
+		"22": {
+			"map": "js_R_Y",
+			"range": [0, 65535]
+		}
+	}
+}

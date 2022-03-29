@@ -1,0 +1,74 @@
+{
+	"Logitech Dual Action": {
+    "variant":"macOS 10",
+		"variantID":"1",
+		"11": {
+			"map": "RT",
+			"range": [0, 1]
+		},
+		"9": {
+			"map": "RB",
+			"range": [0, 1]
+		},
+		"10": {
+			"map": "LT",
+			"range": [0, 1]
+		},
+		"8": {
+			"map": "LB",
+			"range": [0, 1]
+		},
+		"21": {
+			"map": "dpad_C",
+			"range": [0, 4500]
+		},
+		"12": {
+			"map": "back",
+			"range": [0, 1]
+		},
+		"13": {
+			"map": "start",
+			"range": [0, 1]
+		},
+		"14": {
+			"map": "jsb_L",
+			"range": [0, 1]
+		},
+		"15": {
+			"map": "jsb_R",
+			"range": [0, 1]
+		},
+		"7": {
+			"map": "col_U",
+			"range": [0, 1]
+		},
+		"4": {
+			"map": "col_L",
+			"range": [0, 1]
+		},
+		"6": {
+			"map": "col_R",
+			"range": [0, 1]
+		},
+		"5": {
+			"map": "col_D",
+			"range": [0, 1]
+		},
+		"17": {
+			"map": "js_L_X",
+			"range": [0, 255]
+		},
+		"18": {
+			"map": "js_L_Y",
+			"range": [0, 255]
+		},
+		"19": {
+			"map": "js_R_X",
+			"range": [0, 255]
+		},
+		"20": {
+			"map": "js_R_Y",
+			"range": [0, 255]
+		}
+	}
+}

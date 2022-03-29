@@ -1,0 +1,170 @@
+{
+	"PLAYSTATION(R)3 Controller _1": {
+    "variant":"macOS 10",
+		"variantID":"1",
+		"16": {
+			"map": "RT",
+			"range": [0, 1]
+		},
+		"18": {
+			"map": "RB",
+			"range": [0, 1]
+		},
+		"15": {
+			"map": "LT",
+			"range": [0, 1]
+		},
+		"17": {
+			"map": "LB",
+			"range": [0, 1]
+		},
+		"14": {
+			"map": "dpad_L",
+			"range": [0, 1]
+		},
+		"11": {
+			"map": "dpad_U",
+			"range": [0, 1]
+		},
+		"12": {
+			"map": "dpad_R",
+			"range": [0, 1]
+		},
+		"13": {
+			"map": "dpad_D",
+			"range": [0, 1]
+		},
+		"7": {
+			"map": "back",
+			"range": [0, 1]
+		},
+		"10": {
+			"map": "start",
+			"range": [0, 1]
+		},
+		"8": {
+			"map": "jsb_L",
+			"range": [0, 1]
+		},
+		"9": {
+			"map": "jsb_R",
+			"range": [0, 1]
+		},
+		"19": {
+			"map": "col_U",
+			"range": [0, 1]
+		},
+		"22": {
+			"map": "col_L",
+			"range": [0, 1]
+		},
+		"20": {
+			"map": "col_R",
+			"range": [0, 1]
+		},
+		"21": {
+			"map": "col_D",
+			"range": [0, 1]
+		},
+		"26": {
+			"map": "js_L_X",
+			"range": [0, 255]
+		},
+		"27": {
+			"map": "js_L_Y",
+			"range": [0, 255]
+		},
+		"28": {
+			"map": "js_R_X",
+			"range": [0, 255]
+		},
+		"29": {
+			"map": "js_R_Y",
+			"range": [0, 255]
+		},
+		"41": {
+			"map": "LB_press",
+			"range": [0, 255]
+		},
+		"39": {
+			"map": "LT_press",
+			"range": [0, 255]
+		},
+		"42": {
+			"map": "RB_press",
+			"range": [0, 255]
+		},
+		"40": {
+			"map": "RT_press",
+			"range": [0, 255]
+		},
+		"38": {
+			"map": "dpad_L_press",
+			"range": [0, 255]
+		},
+		"35": {
+			"map": "dpad_U_press",
+			"range": [0, 255]
+		},
+		"36": {
+			"map": "dpad_R_press",
+			"range": [0, 255]
+		},
+		"37": {
+			"map": "dpad_D_press",
+			"range": [0, 255]
+		},
+		"43": {
+			"map": "col_U_press",
+			"range": [0, 255]
+		},
+		"46": {
+			"map": "col_L_press",
+			"range": [0, 255]
+		},
+		"44": {
+			"map": "col_R_press",
+			"range": [0, 255]
+		},
+		"45": {
+			"map": "col_D_press",
+			"range": [0, 255]
+		},
+		"69": {
+			"map": "yaw",
+			"range": [0, 255]
+		},
+		"65": {
+			"map": "pitch",
+			"range": [0, 255]
+		},
+		"67": {
+			"map": "roll",
+			"range": [0, 255]
+		},
+		"63": {
+			"map": "unk",
+			"range": [0, 255]
+		},
+		"68": {
+			"map": "yaw_v",
+			"range": [0, 1]
+		},
+		"64": {
+			"map": "pitch_v",
+			"range": [0, 4]
+		},
+		"66": {
+			"map": "roll_v",
+			"range": [0, 4]
+		},
+		"62": {
+			"map": "unk_v",
+			"range": [0, 4]
+		},
+		"30": {
+			"map": "notsure",
+			"range": [0, 1]
+		}
+	}
+}

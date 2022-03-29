@@ -1,0 +1,86 @@
+:{
+	"Sensel Morph": {
+    "variant":"macOS 12",
+		"variantID":"0",
+		"14": {
+			"map": "RT",
+			"range": [0, 1]
+		},
+		"16": {
+			"map": "RB",
+			"range": [0, 1]
+		},
+		"15": {
+			"map": "LT",
+			"range": [0, 1]
+		},
+		"13": {
+			"map": "LB",
+			"range": [0, 1]
+		},
+		"19": {
+			"map": "dpad_U",
+			"range": [0, 1]
+		},
+		"20": {
+			"map": "dpad_D",
+			"range": [0, 1]
+		},
+		"9": {
+			"map": "dpad_L",
+			"range": [0, 1]
+		},
+		"12": {
+			"map": "dpad_R",
+			"range": [0, 1]
+		},
+		"17": {
+			"map": "back",
+			"range": [0, 1]
+		},
+		"18": {
+			"map": "start",
+			"range": [0, 1]
+		},
+		"21": {
+			"map": "jsb_L",
+			"range": [0, 1]
+		},
+		"22": {
+			"map": "jsb_R",
+			"range": [0, 1]
+		},
+		"11": {
+			"map": "col_U",
+			"range": [0, 1]
+		},
+		"10": {
+			"map": "col_L",
+			"range": [0, 1]
+		},
+		"8": {
+			"map": "col_R",
+			"range": [0, 1]
+		},
+		"7": {
+			"map": "col_D",
+			"range": [0, 1]
+		},
+		"23": {
+			"map": "js_L_X",
+			"range": [-127, 127]
+		},
+		"24": {
+			"map": "js_L_Y",
+			"range": [-127, 127]
+		},
+		"25": {
+			"map": "js_R_X",
+			"range": [-127, 127]
+		},
+		"26": {
+			"map": "js_R_Y",
+			"range": [-127, 127]
+		}
+	}
+}

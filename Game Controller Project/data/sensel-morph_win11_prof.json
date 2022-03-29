@@ -1,0 +1,106 @@
+:{
+	"Sensel Morph": {
+    "variant":"windows 11",
+		"variantID":"2",
+		"55": {
+			"map": "RT",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"57": {
+			"map": "RB",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"56": {
+			"map": "LT",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"54": {
+			"map": "LB",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"60": {
+			"map": "dpad_U",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"61": {
+			"map": "dpad_D",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"50": {
+			"map": "dpad_L",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"53": {
+			"map": "dpad_R",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"58": {
+			"map": "back",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"59": {
+			"map": "start",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"62": {
+			"map": "jsb_L",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"63": {
+			"map": "jsb_R",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"52": {
+			"map": "col_U",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"51": {
+			"map": "col_L",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"49": {
+			"map": "col_R",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"48": {
+			"map": "col_D",
+			"range": [0, 128],
+			"type": "button"
+		},
+		"0": {
+			"map": "js_L_X",
+			"range": [0, 65535],
+			"type": "continuous"
+		},
+		"4": {
+			"map": "js_L_Y",
+			"range": [0, 65535],
+			"type": "continuous"
+		},
+		"8": {
+			"map": "js_R_X",
+			"range": [-127, 127],
+			"type": "continuous"
+		},
+		"12": {
+			"map": "js_R_Y",
+			"range": [-127, 127],
+			"type": "continuous"
+		}
+	}
+}
