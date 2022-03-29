@@ -26,7 +26,7 @@ There is also support for reading in profiles, but this is not yet integrated in
 
 I've developed and tested with *Playstation 3 Six Axes* and *Logitech Dual Action* controllers. More controllers will be added in the future. I will need help getting controller profiles created! 
 
-### NOTE: Connection Issues
+### NOTE: macOS 12+ Connection Issues
 
 It seems that some issues with some game controllers and macOS Monterery are a problem. I encountered this with Monterey and Sony Playstation 3 Six Axis. I found a script in this [SDL issue report](https://github.com/libsdl-org/SDL/issues/4923#issuecomment-966722634). I downloaded the `ds3activate.zip` file (at the bottom of the post) and ran the terminal script to allow a wired connection to the Six Axis and my Macbook. The pressure and motion sensors did not work, but joysticks and buttons do. Hope this is not a problem with many controllers!
 
