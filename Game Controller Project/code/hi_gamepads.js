@@ -159,38 +159,44 @@ function simplename(s){
 	}
 }
 
+function sanitizename(n){
+	var namelist = n.split(' ');
+	//check if this is a variant like _2
+	var last = namelist[namelist.length-1].split("_");
+	//returns true if the split results in an int at the end
+	var varindex = parseInt(last[1]);
+	//menu from hi object can list multiples for a controller, like "Sensel Morph 2".
+	//lets see if it end in an int
+	var ctlindex = parseInt(last[0]);
+	//is not a variant name, ending in _<some number>
+	if(isNaN(varindex)){
+			if(ctlindex){
+				//ditch the last integer to create a 'root name' that we can use with our profiles hash
+				namelist.pop();
+				namesym = namelist.join(' ');
+				return namesym
+			} else {
+				namesym = namelist.join(' ');
+				return namesym
+			}
+	} else {
+		//ditch the variant ID, like _2,
+		namelist.pop();
+		namesym = namelist.join(' ');
+		return namesym
+	}
+}
+
 function variant(v){
 	outlet(3,"off");
 	//initial value is empty
 	if(controllername != ''){
-		//get the last part of the controller name. we are looking for things like "_2"
-		var namelist = controllername.split(' ');
-		var end = namelist[namelist.length-1];
-		var last = end.split("_"); //variations end with _1, _2, _3
-		var varindex = parseInt(last[1]);
-		post("\ncurrent controller name: "+controllername);
-		post("\n last: "+end);
-		post("\n int: "+last+" ? "+isNaN(last) );
-		//need to modify controller name
-		if(isNaN(varindex)){
-			//current controller is main map, no appendage
-			if(v>0){
-				//add the _<variant number> like _2
-				controllername = controllername+" _"+v;
-			} else {
-				controllername = namelist.join(' '); //do I really need to put it back together?
-			}
-		} else {
-			//modify the controllername by appending new variant number and redefine maps to variant
-			namelist.pop(); //ditch the last word
-			if(v>0){
-				//add the _<variant number> like _2
-				controllername = namelist.join(' ')+" _"+v;
-			} else {
-				controllername = namelist.join(' ');
-			}
+		//make sure the controller name from umenu is something that can be used in our profiles hash
+		var root_name = sanitizename(controllername);
+		if(v>0){
+			controllername = root_name+" _"+v;
 		}
-		post("\nnew profile key: "+controllername);
+		post("\ncontrollername "+controllername);
 		var pfile = profiles[controllername];
 		if(pfile){
 			importprofile(pfile);
@@ -214,12 +220,12 @@ function errors(s){
 	outlet(3,s);
 }
 
-//use a dict in the patch to access the ranges of controls when selected in menu
+//use a dict in the patch to access if a control is a button or continuous.
 var gcranges = new Dict('gamecontroller_ranges');
 //set up game controller with mappings and ranges from profiles
 function ctls(s){
 	gcranges.clear();
-	controllername = s;
+	controllername = sanitizename(s);
 	var pfile = profiles[controllername];
 	post("\n profile key: "+controllername+" and name "+pfile);
 	if(pfile){
@@ -230,12 +236,28 @@ function ctls(s){
 
 	if(game[controllername]){
 		for (i in game[controllername]){
-			var item = game[controllername][i].map;
-			var readable = game.longnames[item];
-			var range = game[controllername][i].range;
-			post("--ctls: "+i+" "+readable+" "+range+"\n");
-			gcranges.set(item,range);
-			outlet(2,readable,range);
+			//exclude any keys that aren't control indices:
+			var check = !isNaN(parseInt(i));
+			if(check){
+				var item = game[controllername][i].map;
+				var readable = game.longnames[item];
+				var rangevec = game[controllername][i].range;
+				var range = rangevec[1]-rangevec[0];
+				post("\n __range: "+range);
+				//test for button type
+				var testA = (range === 1);
+				var testB = game[controllername][i].type === 'button';
+				var testC = game[controllername][i].type === 'btn';
+				var isbtn = (testA || testB || testC);
+				// get the normalized ranges to adjust the mapping for live
+				var norm_range = 255;
+				if (isbtn) {
+					norm_range = 1;
+				}
+				post("--ctls: "+i+" "+readable+" "+norm_range+"\n");
+				gcranges.set(item,norm_range);
+				outlet(2,readable,norm_range);
+			}
 		}
 	} else {
 		errors("no profile for this game controller");
@@ -251,18 +273,24 @@ function list()
 	var a = arrayfromargs(arguments);
 	var cindex = a[0];
 	var index = cindex.toString();
-	var value = a[1];
-	//post('\nin: '+cindex);
+	var outname = game[controllername][index].map;
+	var rangevec = game[controllername][index].range;
+	var range = Math.abs(rangevec[1]-rangevec[0]);
+	var isbtn = (range === 1 || game[controllername][index].type === 'button' || game[controllername][index].type === 'btn');
+	var value = 0;
+	//normalize buttons to 0-1 range, continuous controls to 0-255 range
+	if(isbtn){
+		value = (a[1]>0) ? 1 : 0;
+	} else {
+		value = ( (Math.abs(rangevec[0]) + a[1])/range ) * 255.;
+	}
+	var nomidi = exclmidi.get(outname); //should be 1 if exists
+	//post('\nvalue: '+value);
 
 	switch(controllername){
 		//two cases in a row is like an "OR" statement. neat!
  		case 'Logitech Dual Action':
  		case 'Logitech Dual Action _1':
-			var outname = game[controllername][index].map;
-			var rangevec = game[controllername][index].range;
-			var range = Math.abs(rangevec[1]-rangevec[0]);
-			var isbtn = (range === 1 || game[controllername][index].type === 'button' || game[controllername][index].type === 'btn');
-			var nomidi = exclmidi.get(outname); //should be 1 if exists
 			// post('\nuse midi for this? '+outname+" "+nomidi);
 			//this controller uses a single index for the Dpad, with different values for each direction.
 			//windows uses the really large values, macs seem to use the 0-8.
@@ -305,19 +333,16 @@ function list()
 					//see if we need to send out note/value pairs
 					if(isbtn && (midiout && nomidi!=1) ){
 						noteval = parseInt(value)+36;
-						// post("dpad notes: "+value+" "+noteval+"\n");
 						outlet(1,noteval,maxvel)
 					}
 					last_dpad = outname;
 					outlet(0,outname,1);
 
 				}
-				// post('\noutname dpad: '+outname+' '+value);
 			//if the outname is not dpad_C we can just sed out the data
 			} else {
-				// post('\noutname other: '+outname+' '+value);
 				//see if we need to send out note/value pairs
-				if(range == 1 && (midiout && nomidi!=1) ){
+				if(isbtn && (midiout && nomidi!=1) ){
 					noteval = cindex+36;
 					outlet(1,noteval,value*maxvel)
 				}
@@ -326,28 +351,23 @@ function list()
 		break;
 
 		case 'Sensel Morph':
-			var outname = game[controllername][index].map;
-			var range = game[controllername][index].range;
-			//post('\noutname: '+cindex+' - '+outname);
 			//see if we need to send out note/value pairs
-			if(range == 1){
+			if(isbtn && (midiout && nomidi!=1) ){
 				noteval = cindex+36;
-				outlet(1,noteval,value*maxvel)
+				outlet(1,noteval,value*maxvel);
 			}
 			outlet(0,outname,value);
 		break;
 
 		case 'PLAYSTATION(R)3 Controller':
 		case 'PLAYSTATION(R)3 Controller _1':
-			var outname = game[controllername][index].map;
-			var range = game[controllername][index].range;
-			//post('\noutname: '+cindex+' - '+outname);
+		//post('\noutname: '+cindex+' - '+outname);
 			//need to adjust for variant 0, as "30" is only for variant 1
 			var isimu = (cindex>60 || cindex===30);
 
 			if(useimu>0){
 				//see if we need to send out note/value pairs
-				if(range == 1){
+				if(isbtn && (midiout && nomidi!=1) ){
 					noteval = cindex+36;
 					outlet(1,noteval,value*maxvel)
 				}
@@ -356,7 +376,7 @@ function list()
 				//suppress acceleromo
 				if(!isimu){
 					//see if we need to send out note/value pairs
-					if(range == 1){
+					if(isbtn && (midiout && nomidi!=1) ){
 						noteval = cindex+36;
 						outlet(1,noteval,value*maxvel)
 					}

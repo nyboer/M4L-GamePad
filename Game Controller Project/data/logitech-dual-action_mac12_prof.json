@@ -4,71 +4,71 @@
 		"variantID":"0",
 		"13": {
 			"map": "RT",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"11": {
 			"map": "RB",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"12": {
 			"map": "LT",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"10": {
 			"map": "LB",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"23": {
 			"map": "dpad_C",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"14": {
 			"map": "back",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"15": {
 			"map": "start",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"16": {
 			"map": "jsb_L",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"17": {
 			"map": "jsb_R",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"9": {
 			"map": "col_U",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"6": {
 			"map": "col_L",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"8": {
 			"map": "col_R",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"7": {
 			"map": "col_D",
-			"range": [0, 10]
+			"range": [0, 1]
 		},
 		"19": {
 			"map": "js_L_X",
-			"range": [0, 10]
+			"range": [0, 255]
 		},
 		"20": {
 			"map": "js_L_Y",
-			"range": [0, 10]
+			"range": [0, 255]
 		},
 		"21": {
 			"map": "js_R_X",
-			"range": [0, 10]
+			"range": [0, 255]
 		},
 		"22": {
 			"map": "js_R_Y",
-			"range": [0, 10]
+			"range": [0, 255]
 		}
 	}
 }
