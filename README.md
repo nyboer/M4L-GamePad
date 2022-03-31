@@ -8,6 +8,10 @@ Use the device's mapping interface to map to Ableton device parameters.
 
 If you select a button in the mapping source menu, it will be excluded from sending MIDI notes, and used to map to Ableton device parameters. Use the "tog" button to turn it from momentary `(m)` action into toggle `(t)`. Toggle can be used with continuous controls like joysticks and pressure, too.
 
+## Install
+
+Put the "Game Controller Project" in your `Documents/Max 8/Max for Live` folder. Drag the Game Controller.amxd file into a Live MIDI track.
+
 ## Max Patch
 
 This relies on a central javascript to do most of the interpretive work and communicate to the UI widgets via pattrstorage. 
