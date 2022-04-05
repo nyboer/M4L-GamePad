@@ -1,0 +1,170 @@
+{
+	"DUALSHOCK 4 Wireless Controller": {
+    "variant":"macOS 10",
+		"variantID":"0",
+		"26": {
+			"map": "RT",
+			"range": [0, 1]
+		},
+		"28": {
+			"map": "RB",
+			"range": [0, 1]
+		},
+		"25": {
+			"map": "LT",
+			"range": [0, 1]
+		},
+		"27": {
+			"map": "LB",
+			"range": [0, 1]
+		},
+		"24": {
+			"map": "dpad_L",
+			"range": [0, 1]
+		},
+		"21": {
+			"map": "dpad_U",
+			"range": [0, 1]
+		},
+		"22": {
+			"map": "dpad_R",
+			"range": [0, 1]
+		},
+		"23": {
+			"map": "dpad_D",
+			"range": [0, 1]
+		},
+		"17": {
+			"map": "back",
+			"range": [0, 1]
+		},
+		"33": {
+			"map": "start",
+			"range": [0, 1]
+		},
+		"18": {
+			"map": "jsb_L",
+			"range": [0, 1]
+		},
+		"19": {
+			"map": "jsb_R",
+			"range": [0, 1]
+		},
+		"29": {
+			"map": "col_U",
+			"range": [0, 1]
+		},
+		"32": {
+			"map": "col_L",
+			"range": [0, 1]
+		},
+		"30": {
+			"map": "col_R",
+			"range": [0, 1]
+		},
+		"31": {
+			"map": "col_D",
+			"range": [0, 1]
+		},
+		"36": {
+			"map": "js_L_X",
+			"range": [0, 255]
+		},
+		"37": {
+			"map": "js_L_Y",
+			"range": [0, 255]
+		},
+		"38": {
+			"map": "js_R_X",
+			"range": [0, 255]
+		},
+		"39": {
+			"map": "js_R_Y",
+			"range": [0, 255]
+		},
+		"51": {
+			"map": "LB_press",
+			"range": [0, 255]
+		},
+		"49": {
+			"map": "LT_press",
+			"range": [0, 255]
+		},
+		"52": {
+			"map": "RB_press",
+			"range": [0, 255]
+		},
+		"50": {
+			"map": "RT_press",
+			"range": [0, 255]
+		},
+		"48": {
+			"map": "dpad_L_press",
+			"range": [0, 255]
+		},
+		"45": {
+			"map": "dpad_U_press",
+			"range": [0, 255]
+		},
+		"46": {
+			"map": "dpad_R_press",
+			"range": [0, 255]
+		},
+		"47": {
+			"map": "dpad_D_press",
+			"range": [0, 255]
+		},
+		"53": {
+			"map": "col_U_press",
+			"range": [0, 255]
+		},
+		"56": {
+			"map": "col_L_press",
+			"range": [0, 255]
+		},
+		"54": {
+			"map": "col_R_press",
+			"range": [0, 255]
+		},
+		"55": {
+			"map": "col_D_press",
+			"range": [0, 255]
+		},
+		"79": {
+			"map": "yaw",
+			"range": [0, 255]
+		},
+		"75": {
+			"map": "pitch",
+			"range": [0, 255]
+		},
+		"77": {
+			"map": "roll",
+			"range": [0, 255]
+		},
+		"73": {
+			"map": "unk",
+			"range": [0, 255]
+		},
+		"78": {
+			"map": "yaw_v",
+			"range": [0, 1]
+		},
+		"74": {
+			"map": "pitch_v",
+			"range": [0, 4]
+		},
+		"76": {
+			"map": "roll_v",
+			"range": [0, 4]
+		},
+		"72": {
+			"map": "unk_v",
+			"range": [0, 4]
+		},
+		"40": {
+			"map": "notsure",
+			"range": [0, 1]
+		}
+	}
+}

@@ -14,12 +14,12 @@ Put the "Game Controller Project" in your `Documents/Max 8/Max for Live` folder.
 
 ## Max Patch
 
-This relies on a central javascript to do most of the interpretive work and communicate to the UI widgets via pattrstorage. 
-The mapping and Live integration is mostly cribbed from the *Expression Control* M4L device that ships with Live Suite. This will probably need refactoring to overcome the 6-parameter-mappings limitation. 
+This relies on a central javascript to do most of the interpretive work and communicate to the UI widgets via pattrstorage.
+The mapping and Live integration is mostly cribbed from the *Expression Control* M4L device that ships with Live Suite. This will probably need refactoring to overcome the 6-parameter-mappings limitation.
 
 ## Mapping Variations
 
-Problem: the same game controller will use different IDs for controls on different computers. 
+Problem: the same game controller will use different IDs for controls on different computers.
 For example, the red button on my Logitech Dual Action controller uses index `8` on macOS Monterey and Big Sur, but `6` on macOS Mojave. (You wonder why MIDI is 7 bit? Becuase it _works_, that's why.)
 
 The "variation" menu helps works around this problem. If your controller is not working right, try a different variation.
@@ -28,7 +28,7 @@ There is also support for reading in profiles, but this is not yet integrated in
 
 ## Supported Controllers
 
-I've developed and tested with *Playstation 3 Six Axes* and *Logitech Dual Action* controllers. More controllers will be added in the future. I will need help getting controller profiles created! 
+I've developed and tested with *Playstation 3 Six Axes* and *Logitech Dual Action* controllers. More controllers will be added in the future. I will need help getting controller profiles created!
 
 ### NOTE: macOS 12+ Connection Issues
 
@@ -42,13 +42,20 @@ Because this is so early stage, this profile format could likely change as we le
 
 ### Implementation
 
-The individual profiles are in the data folder, and are read when the controller is selected from the menu, or when a variation is selected. 
+The individual profiles are in the data folder, and are read when the controller is selected from the menu, or when a variation is selected. The table that links the names reported from the Max `hi` object to the profile JSON documents is called **PROFILES_LOOKUP.json**
 
 ### About Max and HID controllers
 
 This patch uses the max 'hi' object to report available devices and get the data coming from the controls. The data is very simple - it amounts to a number that is an address for the control, and a value. Buttons seem to have values 0-1. Continuous controllers like joysticks, motion sensors, and button pressure (all features of the PS3 Six Axis) report 0-255. It is likely there's controllers out there that report other ranges.
 
-### Structure
+### Profile Lookup
+
+The PROFILES_LOOKUP.json file simply matches controller names and profile documents. It is fairly simple structure. Just copy the name that the `hi` object reports for a controller as a key, and match it with the profile file name. For example:
+```
+"Logitech Dual Action _1":"logitech-dual-action_mac10_prof.json"
+```
+
+### Profile Structure
 
 Currently, the definition for a controller is pretty rudimentary. You can see examples in the [data folder](https://github.com/nyboer/M4L-GamePad/blob/main/Game%20Controller%20Project/data/sony-ps3-six-axis_mac10_prof.json).
 
@@ -84,8 +91,12 @@ The basic structure is a JSON file like so:
 ```
 The name of the controller (such as `"PLAYSTATION(R)3 Controller"` or `"Logitech Dual Action"`) must match what is reported from the Max [hi] object. There is an allowance for "variations" because `"PLAYSTATION(R)3 Controller"` may report different things on macOS Monterey vs macOS BigSur vs Windows 10, etc. In that case, the name can be followed by an underscore and integer, like `"PLAYSTATION(R)3 Controller _2"` for variation 2. This is accessed in the variation sub menu of the Max for Live interface.
 
-In the `map`, the leading integer is the index of something like a joystick x axis or D-pad press. 
-The range is the observed max value from a control. 
+In the `map`, the leading integer is the index of something like a joystick x axis or D-pad press.
+The range is the observed max value from a control.
+
+### Validate JSON
+
+It's wise to validate the JSON of the profile and the PROFILES_LOOKUP files. You can use a web-based tool like [jsonlint](https://jsonlint.com/) to make sure your JSON is formatted correctly.
 
 ### Control names in map
 
@@ -98,7 +109,7 @@ The example PS3 controller has all current possible definitions. If other contro
 
 ### Oddity
 
-The `lda_profile.json` doesn't have individual D-pad indices for up, down, left, right, etc. Instead you'll see a single index called "dpad_C" ("combined.") The Logitech Dual Action reports all D-pad presses under a single index, with each direction providing a unique value. So up is reported as `23 0` and right is `23 2`. There is additional logic in the `hi_gamepads.js` script to deal with this. 
+The `lda_profile.json` doesn't have individual D-pad indices for up, down, left, right, etc. Instead you'll see a single index called "dpad_C" ("combined.") The Logitech Dual Action reports all D-pad presses under a single index, with each direction providing a unique value. So up is reported as `23 0` and right is `23 2`. There is additional logic in the `hi_gamepads.js` script to deal with this.
 
 The moral of the story is that other controllers will probably do similar things that require unique attention.
 
