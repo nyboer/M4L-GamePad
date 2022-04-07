@@ -56,6 +56,7 @@ The PROFILES_LOOKUP.json file simply matches controller names and profile docume
 ```
 
 ### Profile Structure
+[Here's a video](https://youtu.be/6RSUtqsEqTQ) that details how to create a profile.
 
 Currently, the definition for a controller is pretty rudimentary. You can see examples in the [data folder](https://github.com/nyboer/M4L-GamePad/blob/main/Game%20Controller%20Project/data/sony-ps3-six-axis_mac10_prof.json).
 
