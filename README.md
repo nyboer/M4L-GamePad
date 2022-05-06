@@ -1,6 +1,6 @@
 # M4L GamePad
 
-Max for live device that uses game controllers to play notes and control Live parameters.
+Max for live device that uses game controllers to play notes and control Live parameters. Here's a [video explanation](https://youtu.be/LjoNBOO7MmE?t=327) of how it works in live.
 
 Buttons output notes by default. You can use Live's scale and transpose devices to modify those note values.
 
