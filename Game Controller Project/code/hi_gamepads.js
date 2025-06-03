@@ -368,10 +368,13 @@ function list()
 
 		case 'PLAYSTATION(R)3 Controller':
 		case 'PLAYSTATION(R)3 Controller _1':
-		//post('\noutname: '+cindex+' - '+outname);
 			//need to adjust for variant 0, as "30" is only for variant 1
 			var isimu = (cindex>60 || cindex===30);
-
+		default:
+			// This was previously under the Playstation3 controller case
+			// which led to new configurations not actually being functional
+			// if there's a mapping issue, user can fix it. We should
+			// output some form of feedback via the M4L device UI
 			if(useimu>0){
 				//see if we need to send out note/value pairs
 				if(isbtn && (midiout && nomidi!=1) ){
@@ -390,9 +393,6 @@ function list()
 					outlet(0,outname,value);
 				}
 			}
-		break;
-
-		case 'default':
 
 		break;
 
